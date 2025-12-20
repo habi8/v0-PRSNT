@@ -42,7 +42,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <Card className="w-full max-w-md border-border/50 backdrop-blur-sm">
+      <Card className="w-full max-w-md border-border/50 backdrop-blur-sm glowing-border">
         <CardHeader className="text-center space-y-2">
           <CardTitle className="text-4xl font-bold text-primary">PRSNT</CardTitle>
           <CardDescription className="text-foreground/70">Sign in to your account</CardDescription>

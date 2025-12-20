@@ -66,7 +66,7 @@ export default function SignupPage() {
   if (success) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
-        <Card className="w-full max-w-md border-border/50 backdrop-blur-sm">
+        <Card className="w-full max-w-md border-border/50 backdrop-blur-sm glowing-border">
           <CardHeader className="text-center space-y-2">
             <CardTitle className="text-4xl font-bold text-primary">Check Your Email</CardTitle>
             <CardDescription className="text-foreground/70">
@@ -92,7 +92,7 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <Card className="w-full max-w-md border-border/50 backdrop-blur-sm">
+      <Card className="w-full max-w-md border-border/50 backdrop-blur-sm glowing-border">
         <CardHeader className="text-center space-y-2">
           <CardTitle className="text-4xl font-bold text-primary">PRSNT</CardTitle>
           <CardDescription className="text-foreground/70">Create your account</CardDescription>
