@@ -7,8 +7,9 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
-import { Plus, BookOpen, LogOut, Trash2 } from "lucide-react"
+import { Plus, BookOpen, LogOut, Trash2, Edit2 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
+import { EditClassModal } from "@/components/edit-class-modal"
 
 interface Class {
   id: string
@@ -23,6 +24,8 @@ export default function DashboardPage() {
   const [newClassName, setNewClassName] = useState("")
   const [targetDays, setTargetDays] = useState("")
   const [loading, setLoading] = useState(true)
+  const [editingClassId, setEditingClassId] = useState<string | null>(null)
+  const [editingClass, setEditingClass] = useState<Class | null>(null)
   const router = useRouter()
   const supabase = createClient()
 
@@ -56,7 +59,6 @@ export default function DashboardPage() {
       return
     }
 
-    // Transform data to include attendance count
     const transformedClasses =
       classesData?.map((cls: any) => ({
         id: cls.id,
@@ -93,7 +95,7 @@ export default function DashboardPage() {
         {
           name: newClassName,
           target_days: targetDaysNum,
-          user_id: user.id, // Explicitly set user_id
+          user_id: user.id,
         },
       ])
       .select()
@@ -105,6 +107,32 @@ export default function DashboardPage() {
 
     setNewClassName("")
     setTargetDays("")
+    await loadClasses()
+  }
+
+  const handleEditClass = (classItem: Class) => {
+    setEditingClass(classItem)
+    setEditingClassId(classItem.id)
+  }
+
+  const handleSaveEditClass = async (name: string, targetDays: number | null) => {
+    if (!editingClassId) return
+
+    const { error } = await supabase
+      .from("classes")
+      .update({
+        name,
+        target_days: targetDays,
+      })
+      .eq("id", editingClassId)
+
+    if (error) {
+      console.error("Error updating class:", error)
+      return
+    }
+
+    setEditingClassId(null)
+    setEditingClass(null)
     await loadClasses()
   }
 
@@ -132,14 +160,14 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-primary/5 to-accent/20">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <p className="text-muted-foreground">Loading...</p>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-accent/20 p-4 md:p-8">
+    <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -150,7 +178,7 @@ export default function DashboardPage() {
           <Button
             onClick={handleLogout}
             variant="outline"
-            className="border-primary/30 hover:bg-primary/10 bg-transparent"
+            className="border-primary/30 hover:bg-primary/10 bg-transparent button-press"
           >
             <LogOut className="w-4 h-4 mr-2" />
             Logout
@@ -158,7 +186,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Create Class Form */}
-        <Card className="p-6 mb-8 backdrop-blur-sm bg-card/80 border-primary/20 shadow-lg">
+        <Card className="p-6 mb-8 backdrop-blur-sm bg-card/80 border-2 border-primary/40 shadow-lg card-hover">
           <h2 className="text-xl font-semibold text-foreground mb-4">Create New Class</h2>
           <form onSubmit={handleCreateClass} className="flex flex-col md:flex-row gap-3">
             <Input
@@ -176,7 +204,10 @@ export default function DashboardPage() {
               className="md:w-48 bg-background/50 border-primary/30 focus:border-accent"
               min="1"
             />
-            <Button type="submit" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold px-6">
+            <Button
+              type="submit"
+              className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold px-6 button-press"
+            >
               <Plus className="w-4 h-4 mr-2" />
               Create
             </Button>
@@ -187,7 +218,7 @@ export default function DashboardPage() {
         <div>
           <h2 className="text-2xl font-semibold text-foreground mb-4">Your Classes</h2>
           {classes.length === 0 ? (
-            <Card className="p-12 text-center backdrop-blur-sm bg-card/60 border-primary/20">
+            <Card className="p-12 text-center backdrop-blur-sm bg-card/60 border-2 border-primary/40 card-hover">
               <BookOpen className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
               <p className="text-muted-foreground text-lg">No classes yet. Create your first class above!</p>
             </Card>
@@ -200,7 +231,7 @@ export default function DashboardPage() {
                 return (
                   <Card
                     key={classItem.id}
-                    className="p-6 backdrop-blur-sm bg-card/80 border-primary/30 hover:border-accent/50 transition-all cursor-pointer shadow-md hover:shadow-xl"
+                    className="p-6 backdrop-blur-sm bg-card/80 border-2 border-primary/40 hover:border-accent/60 transition-all cursor-pointer shadow-md hover:shadow-xl card-hover"
                     onClick={() => router.push(`/class/${classItem.id}`)}
                   >
                     <div className="flex items-start gap-3 mb-3">
@@ -216,15 +247,29 @@ export default function DashboardPage() {
                         </p>
                       </div>
                     </div>
-                    <Button
-                      onClick={(e) => handleDeleteClass(classItem.id, e)}
-                      variant="outline"
-                      size="sm"
-                      className="w-full border-destructive/30 text-destructive hover:bg-destructive/10"
-                    >
-                      <Trash2 className="w-4 h-4 mr-2" />
-                      Delete Class
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleEditClass(classItem)
+                        }}
+                        variant="outline"
+                        size="sm"
+                        className="flex-1 border-primary/30 hover:bg-primary/10 button-press"
+                      >
+                        <Edit2 className="w-4 h-4 mr-2" />
+                        Edit
+                      </Button>
+                      <Button
+                        onClick={(e) => handleDeleteClass(classItem.id, e)}
+                        variant="outline"
+                        size="sm"
+                        className="flex-1 border-destructive/30 text-destructive hover:bg-destructive/10 button-press"
+                      >
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Delete
+                      </Button>
+                    </div>
                   </Card>
                 )
               })}
@@ -232,6 +277,19 @@ export default function DashboardPage() {
           )}
         </div>
       </div>
+
+      {editingClass && editingClassId && (
+        <EditClassModal
+          classId={editingClassId}
+          className={editingClass.name}
+          targetDays={editingClass.target_days}
+          onSave={handleSaveEditClass}
+          onClose={() => {
+            setEditingClassId(null)
+            setEditingClass(null)
+          }}
+        />
+      )}
     </div>
   )
 }

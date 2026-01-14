@@ -188,11 +188,15 @@ export default function ClassAttendancePage() {
   const targetReached = classData.target_days !== null && attendanceCount >= classData.target_days
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-accent/20 p-4 md:p-8">
+    <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <Button onClick={() => router.push("/dashboard")} variant="ghost" className="mb-4 hover:bg-primary/10">
+          <Button
+            onClick={() => router.push("/dashboard")}
+            variant="ghost"
+            className="mb-4 hover:bg-primary/10 button-press"
+          >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Dashboard
           </Button>
@@ -202,7 +206,7 @@ export default function ClassAttendancePage() {
               <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2 text-balance">{classData.name}</h1>
               <p className="text-muted-foreground">Track your class attendance</p>
             </div>
-            <Card className="p-4 backdrop-blur-sm bg-card/90 border-primary/20 shadow-lg">
+            <Card className="p-4 backdrop-blur-sm bg-card/90 border-2 border-primary/40 shadow-lg card-hover">
               <div className="text-center">
                 <p className="text-sm text-muted-foreground mb-1">Days Attended</p>
                 <p className={`text-3xl font-bold ${targetReached ? "text-[#FFD700]" : "text-foreground"}`}>
@@ -217,7 +221,7 @@ export default function ClassAttendancePage() {
         </div>
 
         {/* Mark Attendance Card */}
-        <Card className="p-8 md:p-12 mb-8 backdrop-blur-sm bg-card/80 border-primary/20 shadow-xl text-center">
+        <Card className="p-8 md:p-12 mb-8 backdrop-blur-sm bg-card/80 border-2 border-primary/40 shadow-xl text-center card-hover">
           <Calendar className="w-16 h-16 mx-auto mb-6 text-primary" />
 
           {isMarkedToday ? (
@@ -254,7 +258,7 @@ export default function ClassAttendancePage() {
               </p>
               <Button
                 onClick={handleMarkAttendance}
-                className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold py-6 px-8 text-lg shadow-lg hover:shadow-xl transition-all"
+                className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold py-6 px-8 text-lg shadow-lg hover:shadow-xl transition-all button-press"
               >
                 Mark Today's Attendance
               </Button>
@@ -262,13 +266,13 @@ export default function ClassAttendancePage() {
           )}
         </Card>
 
-        <Card className="p-6 mb-8 backdrop-blur-sm bg-card/80 border-primary/20 shadow-lg">
+        <Card className="p-6 mb-8 backdrop-blur-sm bg-card/80 border-2 border-primary/40 shadow-lg card-hover">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold text-foreground">Mark Past Dates</h2>
             <Button
               onClick={() => setShowCalendar(!showCalendar)}
               variant="outline"
-              className="border-accent/30 hover:bg-accent/10"
+              className="border-accent/30 hover:bg-accent/10 button-press"
             >
               <CalendarDays className="w-4 h-4 mr-2" />
               {showCalendar ? "Hide Calendar" : "Show Calendar"}
@@ -305,7 +309,7 @@ export default function ClassAttendancePage() {
                   </p>
                   <Button
                     onClick={handleMarkMultipleDates}
-                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
+                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold button-press"
                   >
                     Mark {selectedDates.length} Date{selectedDates.length !== 1 ? "s" : ""}
                   </Button>
@@ -316,7 +320,7 @@ export default function ClassAttendancePage() {
         </Card>
 
         {/* Attendance History */}
-        <Card className="p-6 backdrop-blur-sm bg-card/80 border-primary/20 shadow-lg">
+        <Card className="p-6 backdrop-blur-sm bg-card/80 border-2 border-primary/40 shadow-lg card-hover">
           <h2 className="text-xl font-semibold text-foreground mb-4">Attendance History</h2>
 
           {attendanceRecords.length === 0 ? (
@@ -343,7 +347,7 @@ export default function ClassAttendancePage() {
                     onClick={(e) => handleCancelAttendance(record.id, e)}
                     variant="ghost"
                     size="sm"
-                    className="text-destructive hover:bg-destructive/10"
+                    className="text-destructive hover:bg-destructive/10 button-press"
                   >
                     <X className="w-4 h-4" />
                   </Button>
