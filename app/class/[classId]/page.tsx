@@ -121,11 +121,17 @@ export default function ClassAttendancePage() {
       return
     }
 
-    const dateRecords = selectedDates.map((date) => ({
-      class_id: classId,
-      user_id: user.id,
-      date: date.toISOString().split("T")[0],
-    }))
+    const dateRecords = selectedDates.map((date) => {
+      // Create date string using the local date, not UTC
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, "0")
+      const day = String(date.getDate()).padStart(2, "0")
+      return {
+        class_id: classId,
+        user_id: user.id,
+        date: `${year}-${month}-${day}`,
+      }
+    })
 
     const { error } = await supabase.from("attendance").insert(dateRecords)
 
