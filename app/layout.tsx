@@ -8,7 +8,7 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "PRSNT - Tutor Attendance Tracker",
+  title: "PRSNT",
   description: "Simple and modern attendance tracking for tutors",
   generator: "v0.app",
   icons: {
