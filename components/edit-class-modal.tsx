@@ -31,7 +31,7 @@ export function EditClassModal({ classId, className, targetDays, onSave, onClose
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-md p-6 bg-card border-2 border-primary/40 shadow-xl glowing-border">
+      <Card className="w-full max-w-md p-6 bg-card border border-soft shadow-lg">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold text-foreground">Edit Class</h2>
           <Button onClick={onClose} variant="ghost" size="sm" className="hover:bg-primary/10 button-press">
@@ -46,7 +46,7 @@ export function EditClassModal({ classId, className, targetDays, onSave, onClose
               type="text"
               value={editName}
               onChange={(e) => setEditName(e.target.value)}
-              className="bg-background/50 border-primary/30 focus:border-accent"
+              className="bg-background/50 border-soft focus:border-accent"
             />
           </div>
 
@@ -56,7 +56,7 @@ export function EditClassModal({ classId, className, targetDays, onSave, onClose
               type="number"
               value={editTargetDays}
               onChange={(e) => setEditTargetDays(e.target.value)}
-              className="bg-background/50 border-primary/30 focus:border-accent"
+              className="bg-background/50 border-soft focus:border-accent"
               min="1"
             />
           </div>
@@ -64,15 +64,14 @@ export function EditClassModal({ classId, className, targetDays, onSave, onClose
           <div className="flex gap-3 pt-4">
             <Button
               onClick={onClose}
-              variant="outline"
-              className="flex-1 border-primary/30 hover:bg-primary/10 bg-transparent button-press"
+              className="flex-1 btn-neutral button-press border"
               disabled={isSaving}
             >
               Cancel
             </Button>
             <Button
               onClick={handleSave}
-              className="flex-1 bg-accent hover:bg-accent/90 text-accent-foreground font-semibold button-press"
+              className="flex-1 btn-primary button-press font-semibold"
               disabled={isSaving}
             >
               {isSaving ? "Saving..." : "Save"}

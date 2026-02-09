@@ -184,7 +184,7 @@ export default function ClassAttendancePage() {
 
   if (!classData) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-primary/5 to-accent/20">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <p className="text-muted-foreground">Loading...</p>
       </div>
     )
@@ -212,10 +212,10 @@ export default function ClassAttendancePage() {
               <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2 text-balance">{classData.name}</h1>
               <p className="text-muted-foreground">Track your class attendance</p>
             </div>
-            <Card className="p-4 backdrop-blur-sm bg-card/90 border-2 border-primary/40 shadow-lg card-hover">
+            <Card className="p-4 backdrop-blur-sm bg-card border border-soft shadow-md card-hover">
               <div className="text-center">
                 <p className="text-sm text-muted-foreground mb-1">Days Attended</p>
-                <p className={`text-3xl font-bold ${targetReached ? "text-[#FFD700]" : "text-foreground"}`}>
+                <p className={`text-3xl font-bold ${targetReached ? "text-[#F5C518]" : "text-foreground"}`}>
                   {attendanceCount}
                 </p>
                 {classData.target_days && (
@@ -227,7 +227,7 @@ export default function ClassAttendancePage() {
         </div>
 
         {/* Mark Attendance Card */}
-        <Card className="p-8 md:p-12 mb-8 backdrop-blur-sm bg-card/80 border-2 border-primary/40 shadow-xl text-center card-hover">
+        <Card className="p-8 md:p-12 mb-8 backdrop-blur-sm bg-card border border-soft shadow-md text-center card-hover">
           <Calendar className="w-16 h-16 mx-auto mb-6 text-primary" />
 
           {isMarkedToday ? (
@@ -246,7 +246,7 @@ export default function ClassAttendancePage() {
               </div>
               <Button
                 disabled
-                className="bg-primary hover:bg-primary text-primary-foreground font-semibold py-6 px-8 text-lg cursor-not-allowed opacity-60"
+                className="btn-primary text-lg cursor-not-allowed opacity-60 py-6 px-8"
               >
                 Attendance Recorded
               </Button>
@@ -264,7 +264,7 @@ export default function ClassAttendancePage() {
               </p>
               <Button
                 onClick={handleMarkAttendance}
-                className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold py-6 px-8 text-lg shadow-lg hover:shadow-xl transition-all button-press"
+                className="btn-primary text-lg shadow-md font-semibold py-6 px-8 button-press"
               >
                 Mark Today's Attendance
               </Button>
@@ -272,13 +272,12 @@ export default function ClassAttendancePage() {
           )}
         </Card>
 
-        <Card className="p-6 mb-8 backdrop-blur-sm bg-card/80 border-2 border-primary/40 shadow-lg card-hover">
+        <Card className="p-6 mb-8 backdrop-blur-sm bg-card border border-soft shadow-md card-hover">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold text-foreground">Mark Past Dates</h2>
             <Button
               onClick={() => setShowCalendar(!showCalendar)}
-              variant="outline"
-              className="border-accent/30 hover:bg-accent/10 button-press"
+              className="btn-neutral button-press border"
             >
               <CalendarDays className="w-4 h-4 mr-2" />
               {showCalendar ? "Hide Calendar" : "Show Calendar"}
@@ -306,7 +305,7 @@ export default function ClassAttendancePage() {
                   const dateStr = date.toISOString().split("T")[0]
                   return attendanceRecords.some((record) => record.date === dateStr) || date > new Date()
                 }}
-                className="rounded-md border border-primary/20 mx-auto"
+                className="rounded-md border border-soft mx-auto"
               />
               {selectedDates.length > 0 && (
                 <div className="mt-4">
@@ -315,7 +314,7 @@ export default function ClassAttendancePage() {
                   </p>
                   <Button
                     onClick={handleMarkMultipleDates}
-                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold button-press"
+                    className="w-full btn-primary font-semibold button-press"
                   >
                     Mark {selectedDates.length} Date{selectedDates.length !== 1 ? "s" : ""}
                   </Button>
@@ -326,7 +325,7 @@ export default function ClassAttendancePage() {
         </Card>
 
         {/* Attendance History */}
-        <Card className="p-6 backdrop-blur-sm bg-card/80 border-2 border-primary/40 shadow-lg card-hover">
+        <Card className="p-6 backdrop-blur-sm bg-card border border-soft shadow-md card-hover">
           <h2 className="text-xl font-semibold text-foreground mb-4">Attendance History</h2>
 
           {attendanceRecords.length === 0 ? (
@@ -338,7 +337,7 @@ export default function ClassAttendancePage() {
               {attendanceRecords.map((record) => (
                 <div
                   key={record.id}
-                  className="flex items-center gap-3 p-3 bg-background/50 rounded-lg border border-primary/10"
+                  className="flex items-center gap-3 p-3 bg-background/50 rounded-lg border border-soft"
                 >
                   <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0" />
                   <span className="text-foreground font-medium flex-1">
