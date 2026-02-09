@@ -177,8 +177,7 @@ export default function DashboardPage() {
           </div>
           <Button
             onClick={handleLogout}
-            variant="outline"
-            className="border-primary/30 hover:bg-primary/10 bg-transparent button-press"
+            className="btn-neutral button-press border"
           >
             <LogOut className="w-4 h-4 mr-2" />
             Logout
@@ -186,7 +185,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Create Class Form */}
-        <Card className="p-6 mb-8 backdrop-blur-sm bg-card/80 border-2 border-primary/40 shadow-lg card-hover">
+        <Card className="p-6 mb-8 backdrop-blur-sm bg-card border border-soft shadow-md card-hover">
           <h2 className="text-xl font-semibold text-foreground mb-4">Create New Class</h2>
           <form onSubmit={handleCreateClass} className="flex flex-col md:flex-row gap-3">
             <Input
@@ -194,19 +193,19 @@ export default function DashboardPage() {
               placeholder="Class Name (e.g., Algebra III - Spring 2026)"
               value={newClassName}
               onChange={(e) => setNewClassName(e.target.value)}
-              className="flex-1 bg-background/50 border-primary/30 focus:border-accent"
+              className="flex-1 bg-background/50 border-soft focus:border-accent"
             />
             <Input
               type="number"
               placeholder="Target Days (optional)"
               value={targetDays}
               onChange={(e) => setTargetDays(e.target.value)}
-              className="md:w-48 bg-background/50 border-primary/30 focus:border-accent"
+              className="md:w-48 bg-background/50 border-soft focus:border-accent"
               min="1"
             />
             <Button
               type="submit"
-              className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold px-6 button-press"
+              className="btn-primary button-press font-semibold px-6"
             >
               <Plus className="w-4 h-4 mr-2" />
               Create
@@ -218,7 +217,7 @@ export default function DashboardPage() {
         <div>
           <h2 className="text-2xl font-semibold text-foreground mb-4">Your Classes</h2>
           {classes.length === 0 ? (
-            <Card className="p-12 text-center backdrop-blur-sm bg-card/60 border-2 border-primary/40 card-hover">
+            <Card className="p-12 text-center backdrop-blur-sm bg-card border border-soft shadow-md card-hover">
               <BookOpen className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
               <p className="text-muted-foreground text-lg">No classes yet. Create your first class above!</p>
             </Card>
@@ -231,7 +230,7 @@ export default function DashboardPage() {
                 return (
                   <Card
                     key={classItem.id}
-                    className="p-6 backdrop-blur-sm bg-card/80 border-2 border-primary/40 hover:border-accent/60 transition-all cursor-pointer shadow-md hover:shadow-xl card-hover"
+                    className="p-6 backdrop-blur-sm bg-card border border-soft hover:border-primary/30 transition-all cursor-pointer shadow-md hover:shadow-lg card-hover"
                     onClick={() => router.push(`/class/${classItem.id}`)}
                   >
                     <div className="flex items-start gap-3 mb-3">
@@ -241,7 +240,7 @@ export default function DashboardPage() {
                       <div className="flex-1 min-w-0">
                         <h3 className="font-semibold text-foreground text-lg mb-2 break-words">{classItem.name}</h3>
                         <p
-                          className={`text-sm font-semibold ${targetReached ? "text-[#FFD700]" : "text-muted-foreground"}`}
+                          className={`text-sm font-semibold ${targetReached ? "text-[#F5C518]" : "text-muted-foreground"}`}
                         >
                           {classItem.attendance_count} / {classItem.target_days || "∞"} days
                         </p>
@@ -253,18 +252,14 @@ export default function DashboardPage() {
                           e.stopPropagation()
                           handleEditClass(classItem)
                         }}
-                        variant="outline"
-                        size="sm"
-                        className="flex-1 border-primary/30 hover:bg-primary/10 button-press"
+                        className="flex-1 btn-neutral button-press border text-sm"
                       >
                         <Edit2 className="w-4 h-4 mr-2" />
                         Edit
                       </Button>
                       <Button
                         onClick={(e) => handleDeleteClass(classItem.id, e)}
-                        variant="outline"
-                        size="sm"
-                        className="flex-1 border-destructive/30 text-destructive hover:bg-destructive/10 button-press"
+                        className="flex-1 border border-destructive/30 text-destructive hover:bg-destructive/10 button-press text-sm bg-transparent"
                       >
                         <Trash2 className="w-4 h-4 mr-2" />
                         Delete
