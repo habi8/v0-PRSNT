@@ -200,8 +200,7 @@ export default function ClassAttendancePage() {
         <div className="mb-8">
           <Button
             onClick={() => router.push("/dashboard")}
-            variant="ghost"
-            className="mb-4 hover:bg-primary/10 button-press"
+            className="mb-4 btn-neutral button-press border"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Dashboard
